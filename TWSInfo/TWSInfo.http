@@ -1,0 +1,6 @@
+@TWSInfo_HostAddress = http://localhost:5080
+
+GET {{TWSInfo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
