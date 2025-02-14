@@ -11,6 +11,7 @@ namespace TWSInfo.Service.IService
     {
         Task<IEnumerable<Stores>> GetAllStoresAsync();
         Task<Stores> GetStoreByIdAsync(int id);
+        Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId);
         Task AddStoreAsync(Stores store);
         Task UpdateStoreAsync(Stores store);
         Task DeleteStoreAsync(int id);

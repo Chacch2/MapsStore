@@ -54,5 +54,16 @@ namespace TWSInfo.Controllers
             await _storeService.DeleteStoreAsync(id);
             return NoContent();
         }
+
+        [HttpGet("bychain/{id}")]
+        public async Task<IActionResult> GetStoresByChain(int id)
+        {
+            var stores = await _storeService.GetStoresByChainIdAsync(id);
+            if (stores == null || !stores.Any())
+            {
+                return NotFound();
+            }
+            return Ok(stores);
+        }
     }
 }
