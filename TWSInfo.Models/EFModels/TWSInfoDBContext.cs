@@ -15,6 +15,8 @@ public partial class TWSInfoDBContext : DbContext
 
     public virtual DbSet<Favorites> Favorites { get; set; }
 
+    public virtual DbSet<StoreTypes> StoreTypes { get; set; }
+
     public virtual DbSet<Stores> Stores { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }
@@ -28,6 +30,11 @@ public partial class TWSInfoDBContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.LogoUrl).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(100);
+
+            entity.HasOne(d => d.Type).WithMany(p => p.Chains)
+                .HasForeignKey(d => d.TypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Chains_StoreTypes");
         });
 
         modelBuilder.Entity<Favorites>(entity =>
@@ -47,6 +54,16 @@ public partial class TWSInfoDBContext : DbContext
                 .HasConstraintName("FK__Favorites__UserI__4222D4EF");
         });
 
+        modelBuilder.Entity<StoreTypes>(entity =>
+        {
+            entity.HasKey(e => e.TypeId).HasName("PK__StoreTyp__49968D78D8A86AD1");
+
+            entity.Property(e => e.IconUrl).HasMaxLength(500);
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Stores>(entity =>
         {
             entity.HasKey(e => e.StoreId).HasName("PK__Stores__3B82F101D27912C0");
@@ -62,6 +79,11 @@ public partial class TWSInfoDBContext : DbContext
             entity.HasOne(d => d.Chain).WithMany(p => p.Stores)
                 .HasForeignKey(d => d.ChainId)
                 .HasConstraintName("FK__Stores__ChainId__398D8EEE");
+
+            entity.HasOne(d => d.Type).WithMany(p => p.Stores)
+                .HasForeignKey(d => d.TypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Stores_StoreTypes");
         });
 
         modelBuilder.Entity<Users>(entity =>

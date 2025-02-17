@@ -23,7 +23,11 @@ public partial class Stores
 
     public DateTime? CreatedAt { get; set; }
 
+    public int TypeId { get; set; }
+
     public virtual Chains? Chain { get; set; }
 
     public virtual ICollection<Favorites> Favorites { get; set; } = new List<Favorites>();
+
+    public virtual StoreTypes Type { get; set; } = null!;
 }

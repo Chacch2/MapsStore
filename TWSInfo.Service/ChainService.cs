@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TWSInfo.Data.Repository;
 using TWSInfo.Data.Repository.IRepository;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Service.IService;
 
@@ -43,10 +46,26 @@ namespace TWSInfo.Service
             return await _unitOfWork.ChainRepository.GetByIdAsync(id);
         }
 
+
         public async Task UpdateChainAsync(Chains chain)
         {
             _unitOfWork.ChainRepository.Update(chain);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<GetChainsByTypeIdDto>> GetChainsByTypeIdAsync(int typeId)
+        {
+            // 從 Repository 取得 Chain 實體
+            var chains = await _unitOfWork.ChainRepository.GetChainsByTypeIdAsync(typeId);
+
+            // 將實體轉換成 DTO
+            var dto = chains.Select(c => new GetChainsByTypeIdDto
+            {
+                ChainId = c.ChainId,
+                ChainName = c.Name
+            });
+
+            return dto;
         }
     }
 }

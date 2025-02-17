@@ -14,11 +14,14 @@ namespace TWSInfo.Data.Repository
         public IStoreRepository StoreRepository { get; }
         public IChainRepository ChainRepository { get; }
 
+        public ITypeRepository TypeRepository { get; }
+
         public UnitOfWork(TWSInfoDBContext context)
         {
             _context = context;
             StoreRepository = new StoreRepository(_context);
             ChainRepository = new ChainRepository(_context);
+            TypeRepository = new TypeRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

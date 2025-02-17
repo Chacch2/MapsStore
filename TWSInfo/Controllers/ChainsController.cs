@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Service.IService;
 
@@ -32,6 +33,8 @@ namespace TWSInfo.Controllers
             return Ok(chain);
         }
 
+
+
         [HttpPost]
         public async Task<ActionResult> AddChain([FromBody] Chains chain)
         {
@@ -53,6 +56,19 @@ namespace TWSInfo.Controllers
         {
             await _chainService.DeleteChainAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("GetChainsByTypeId/{typeId}")]
+        public async Task<ActionResult<IEnumerable<GetChainsByTypeIdDto>>> GetChainsByTypeId(int typeId)
+        {
+            var result = await _chainService.GetChainsByTypeIdAsync(typeId);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
     }
 }

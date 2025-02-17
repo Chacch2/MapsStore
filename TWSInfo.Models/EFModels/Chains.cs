@@ -13,5 +13,9 @@ public partial class Chains
 
     public string? Description { get; set; }
 
+    public int TypeId { get; set; }
+
     public virtual ICollection<Stores> Stores { get; set; } = new List<Stores>();
+
+    public virtual StoreTypes Type { get; set; } = null!;
 }
