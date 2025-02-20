@@ -21,9 +21,9 @@ namespace TWSInfo.Service
             return await _unitOfWork.TypeRepository.GetAllAsync();
         }
 
-        public Task<StoreTypes> GetTypeByIdAsync(int id)
+        public async Task<StoreTypes> GetTypeByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.TypeRepository.GetByIdAsync(id);
         }
     }
 }

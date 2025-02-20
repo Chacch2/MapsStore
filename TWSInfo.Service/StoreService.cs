@@ -54,5 +54,10 @@ namespace TWSInfo.Service
         {
             return await _unitOfWork.StoreRepository.GetStoresByChainIdAsync(chainId);
         }
+
+        public async Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId)
+        {
+            return await _unitOfWork.StoreRepository.GetStoresByTypeIdAsync(typeId);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Service;
@@ -21,6 +22,15 @@ namespace TWSInfo.Controllers
         public async Task<ActionResult<IEnumerable<StoreTypes>>> GetTypes()
         {
             var types = await _typeService.GetAllTypesAsync();
+            return Ok(types);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<StoreTypes>>> GetTypes(int id)
+        {
+            var types = await _typeService.GetTypeByIdAsync(id);
+            if (types == null)
+                return NotFound();
             return Ok(types);
         }
     }

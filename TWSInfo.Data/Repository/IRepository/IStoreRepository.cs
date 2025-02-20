@@ -10,5 +10,6 @@ namespace TWSInfo.Data.Repository.IRepository
     public interface IStoreRepository : IRepository<Stores>
     {
         Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId);
+        Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId);
     }
 }

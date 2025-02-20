@@ -62,7 +62,8 @@ namespace TWSInfo.Service
             var dto = chains.Select(c => new GetChainsByTypeIdDto
             {
                 ChainId = c.ChainId,
-                ChainName = c.Name
+                ChainName = c.Name,
+                ChainLogoUrl = c.LogoUrl,
             });
 
             return dto;

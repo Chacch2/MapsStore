@@ -22,5 +22,10 @@ namespace TWSInfo.Data.Repository
         {
             return await _context.Stores.Where(s => s.ChainId == chainId).ToListAsync();
         }
+
+        public async Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId)
+        {
+            return await _context.Stores.Where(s => s.TypeId == typeId).ToListAsync();
+        }
     }
 }

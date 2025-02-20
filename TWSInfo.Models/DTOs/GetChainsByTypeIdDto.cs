@@ -10,5 +10,6 @@ namespace TWSInfo.Models.DTOs
     {
         public int ChainId { get; set; }
         public string ChainName { get; set; }
+        public string? ChainLogoUrl { get; set; }
     }
 }

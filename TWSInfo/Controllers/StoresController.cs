@@ -65,5 +65,16 @@ namespace TWSInfo.Controllers
             }
             return Ok(stores);
         }
+
+        [HttpGet("bytype/{id}")]
+        public async Task<IActionResult> GetStoresByType(int id)
+        {
+            var stores = await _storeService.GetStoresByTypeIdAsync(id);
+            if (stores == null || !stores.Any())
+            {
+                return NotFound();
+            }
+            return Ok(stores);
+        }
     }
 }
