@@ -11,5 +11,6 @@ namespace TWSInfo.Data.Repository.IRepository
     {
         Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId);
         Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId);
+        Task<IEnumerable<Stores>> GetAllStoresAsync(string? filterOn, string? filterQuery);
     }
 }

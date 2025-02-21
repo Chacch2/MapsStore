@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Service.IService;
 
@@ -17,9 +18,9 @@ namespace TWSInfo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stores>>> GetStores()
+        public async Task<ActionResult<IEnumerable<Stores>>> GetStores([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
         {
-            var stores = await _storeService.GetAllStoresAsync();
+            var stores = await _storeService.GetAllStoresAsync(filterOn, filterQuery);
             return Ok(stores);
         }
 

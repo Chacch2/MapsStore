@@ -1,22 +1,27 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TWSInfo.Data.Repository;
 using TWSInfo.Data.Repository.IRepository;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Service.IService;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TWSInfo.Service
 {
     public class StoreService : IStoreService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public StoreService(IUnitOfWork unitOfWork)
+        public StoreService(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<Stores>> GetAllStoresAsync()
         {
@@ -58,6 +63,12 @@ namespace TWSInfo.Service
         public async Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId)
         {
             return await _unitOfWork.StoreRepository.GetStoresByTypeIdAsync(typeId);
+        }
+
+        public async Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? filterOn, string? filterQuery)
+        {
+            var stores = await _unitOfWork.StoreRepository.GetAllStoresAsync(filterOn, filterQuery);
+            return _mapper.Map<IEnumerable<StoreDto>>(stores);
         }
     }
 }

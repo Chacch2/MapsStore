@@ -4,12 +4,19 @@ using TWSInfo.Data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using TWSInfo.Models.EFModels;
 using TWSInfo.Data.Repository;
+using System.Text.Json.Serialization;
+using TWSInfo.Models.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+//builder.Services.AddControllers().AddJsonOptions(options =>
+//{
+//    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+//    options.JsonSerializerOptions.WriteIndented = true;
+//});
 
 builder.Services.AddCors(options =>
 {
@@ -30,6 +37,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IChainService, ChainService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<ITypeService, TypeService>();
+
+builder.Services.AddAutoMapper(typeof(AutoMappingProfile));
 
 var app = builder.Build();
 

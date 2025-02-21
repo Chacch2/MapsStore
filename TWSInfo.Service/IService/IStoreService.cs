@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 
 namespace TWSInfo.Service.IService
@@ -16,5 +17,6 @@ namespace TWSInfo.Service.IService
         Task AddStoreAsync(Stores store);
         Task UpdateStoreAsync(Stores store);
         Task DeleteStoreAsync(int id);
+        Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? filterOn, string? filterQuery);
     }
 }
