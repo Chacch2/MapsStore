@@ -10,13 +10,10 @@ namespace TWSInfo.Service.IService
 {
     public interface IStoreService
     {
-        Task<IEnumerable<Stores>> GetAllStoresAsync();
+        Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? tag, double lat, double lon);
         Task<Stores> GetStoreByIdAsync(int id);
-        Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId);
-        Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId);
         Task AddStoreAsync(Stores store);
         Task UpdateStoreAsync(Stores store);
         Task DeleteStoreAsync(int id);
-        Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? filterOn, string? filterQuery);
     }
 }

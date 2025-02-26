@@ -10,7 +10,9 @@ namespace TWSInfo.Data.Repository.IRepository
     {
         IStoreRepository StoreRepository { get; }
         IChainRepository ChainRepository { get; }
-        ITypeRepository TypeRepository { get; }
+        IStoreTypeRepository StoreTypeRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+        ISubTypeRepository SubTypeRepository { get; }
         Task<int> SaveChangesAsync();
     }
 }

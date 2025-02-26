@@ -58,17 +58,5 @@ namespace TWSInfo.Controllers
             return NoContent();
         }
 
-        [HttpGet("GetChainsByTypeId/{typeId}")]
-        public async Task<ActionResult<IEnumerable<GetChainsByTypeIdDto>>> GetChainsByTypeId(int typeId)
-        {
-            var result = await _chainService.GetChainsByTypeIdAsync(typeId);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }
     }
 }

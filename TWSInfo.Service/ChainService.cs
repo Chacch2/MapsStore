@@ -53,20 +53,6 @@ namespace TWSInfo.Service
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<GetChainsByTypeIdDto>> GetChainsByTypeIdAsync(int typeId)
-        {
-            // 從 Repository 取得 Chain 實體
-            var chains = await _unitOfWork.ChainRepository.GetChainsByTypeIdAsync(typeId);
-
-            // 將實體轉換成 DTO
-            var dto = chains.Select(c => new GetChainsByTypeIdDto
-            {
-                ChainId = c.ChainId,
-                ChainName = c.Name,
-                ChainLogoUrl = c.LogoUrl,
-            });
-
-            return dto;
-        }
+        
     }
 }

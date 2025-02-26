@@ -21,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "AllowAll",
-        builder => { builder.WithOrigins("http://localhost:8080" ).AllowAnyMethod().AllowAnyHeader(); });
+        builder => { builder.WithOrigins("http://localhost:8082" ).AllowAnyMethod().AllowAnyHeader(); });
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +36,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IChainService, ChainService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
-builder.Services.AddScoped<ITypeService, TypeService>();
+builder.Services.AddScoped<IStoreTypeService, StoreTypeService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ISubTypeService, SubTypeService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMappingProfile));
 

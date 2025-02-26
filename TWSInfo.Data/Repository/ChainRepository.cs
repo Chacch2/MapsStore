@@ -18,14 +18,6 @@ namespace TWSInfo.Data.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Chains>> GetChainsByTypeIdAsync(int typeId)
-        {
-            return await _context.Chains.Where(c => c.TypeId == typeId).ToListAsync();
-        }
-
-        public async Task<Chains> GetChainWithStoresAsync(int id)
-        {
-            return await _context.Chains.Include(c => c.Stores).FirstOrDefaultAsync(c => c.ChainId == id);
-        }
+      
     }
 }

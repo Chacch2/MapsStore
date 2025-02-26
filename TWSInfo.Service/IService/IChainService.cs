@@ -15,7 +15,5 @@ namespace TWSInfo.Service.IService
         Task AddChainAsync(Chains chain);
         Task UpdateChainAsync(Chains chain);
         Task DeleteChainAsync(int id);
-
-        Task<IEnumerable<GetChainsByTypeIdDto>> GetChainsByTypeIdAsync(int typeId);
     }
 }

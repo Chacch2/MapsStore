@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TWSInfo.Models.DTOs
 {
-    public class StoreTypeDto
+    public class SubTypeDto
     {
+        public int SubTypeId { get; set; }
         public int StoreTypeId { get; set; }
         public string Name { get; set; } = null!;
         public string? IconUrl { get; set; }

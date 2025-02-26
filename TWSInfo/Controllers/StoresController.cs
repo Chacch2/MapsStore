@@ -18,9 +18,9 @@ namespace TWSInfo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stores>>> GetStores([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
+        public async Task<ActionResult<IEnumerable<Stores>>> GetStores([FromQuery] string? tag, [FromQuery] double lat, [FromQuery] double lon)
         {
-            var stores = await _storeService.GetAllStoresAsync(filterOn, filterQuery);
+            var stores = await _storeService.GetAllStoresAsync(tag, lat, lon);
             return Ok(stores);
         }
 
@@ -56,26 +56,6 @@ namespace TWSInfo.Controllers
             return NoContent();
         }
 
-        [HttpGet("bychain/{id}")]
-        public async Task<IActionResult> GetStoresByChain(int id)
-        {
-            var stores = await _storeService.GetStoresByChainIdAsync(id);
-            if (stores == null || !stores.Any())
-            {
-                return NotFound();
-            }
-            return Ok(stores);
-        }
 
-        [HttpGet("bytype/{id}")]
-        public async Task<IActionResult> GetStoresByType(int id)
-        {
-            var stores = await _storeService.GetStoresByTypeIdAsync(id);
-            if (stores == null || !stores.Any())
-            {
-                return NotFound();
-            }
-            return Ok(stores);
-        }
     }
 }

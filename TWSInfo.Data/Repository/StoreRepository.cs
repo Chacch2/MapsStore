@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TWSInfo.Data.Repository.IRepository;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 
 namespace TWSInfo.Data.Repository
@@ -18,38 +20,37 @@ namespace TWSInfo.Data.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId)
+        public async Task<IEnumerable<Stores>> GetStoresByCategoriesAsync(string? mainCategory, string? subCategory, string? chainName)
         {
-            return await _context.Stores.Where(s => s.ChainId == chainId).ToListAsync();
-        }
+            var query = _context.Stores
+                        .Include(s => s.Chain)
+                        .ThenInclude(c => c.SubType)
+                        .ThenInclude(st => st.StoreType)
+                        .AsQueryable();
 
-        public async Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId)
-        {
-            return await _context.Stores.Where(s => s.TypeId == typeId).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Stores>> GetAllStoresAsync(string? filterOn, string? filterQuery)
-        {
-            var stores = _context.Stores.Include("Chain").Include("Type").AsQueryable();
-
-            //filtering
-
-            if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            if (!string.IsNullOrEmpty(mainCategory))
             {
-                if (filterOn.Equals("TypeId", StringComparison.OrdinalIgnoreCase))
-                {
-                    stores = stores.Where(s => s.TypeId.ToString().Contains(filterQuery));
-                }
-                //else if (filterOn.Equals("ChainId", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    stores = stores.Where(s => s.ChainId.ToString().Contains(filterQuery));
-                //}
-                //else if (filterOn.Equals("StoreName", StringComparison.OrdinalIgnoreCase))
-                //{
-                //    stores = stores.Where(s => s.StoreName.Contains(filterQuery));
-                //}
+                string mainLower = mainCategory.ToLower();
+                query = query.Where(s => s.Chain != null &&
+                                         s.Chain.SubType != null &&
+                                         s.Chain.SubType.StoreType != null &&
+                                         s.Chain.SubType.StoreType.Name.ToLower() == mainLower);
             }
-            return await stores.ToListAsync();
+            if (!string.IsNullOrEmpty(subCategory))
+            {
+                string subLower = subCategory.ToLower();
+                query = query.Where(s => s.Chain != null &&
+                                         s.Chain.SubType != null &&
+                                         s.Chain.SubType.Name.ToLower() == subLower);
+            }
+            if (!string.IsNullOrEmpty(chainName))
+            {
+                string chainLower = chainName.ToLower();
+                query = query.Where(s => s.Chain != null &&
+                                         s.Chain.Name.ToLower().Contains(chainLower));
+            }
+
+            return await query.AsNoTracking().ToListAsync();
         }
     }
 }

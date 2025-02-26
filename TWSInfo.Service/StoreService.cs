@@ -18,14 +18,31 @@ namespace TWSInfo.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public StoreService(IUnitOfWork unitOfWork,IMapper mapper)
+        public StoreService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<Stores>> GetAllStoresAsync()
+        public async Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? tag, double lat, double lon)
         {
-            return await _unitOfWork.StoreRepository.GetAllAsync();
+            // 若 tag 為 null 或 _all，直接取得全部店家
+            if (string.IsNullOrWhiteSpace(tag) || tag.Equals("_all", StringComparison.OrdinalIgnoreCase))
+            {
+                var allStores = await _unitOfWork.StoreRepository.GetAllAsync();
+                return _mapper.Map<IEnumerable<StoreDto>>(allStores);
+            }
+
+            // 移除前導底線，並根據底線分解字串
+            var cleanedTag = tag.TrimStart('_'); // 例如 "food_cafe_staba"
+            var parts = cleanedTag.Split('_', StringSplitOptions.RemoveEmptyEntries);
+
+            string? mainCategory = parts.Length >= 1 ? parts[0] : null;
+            string? subCategory = parts.Length >= 2 ? parts[1] : null;
+            string? chainName = parts.Length >= 3 ? parts[2] : null;
+
+            var stores = await _unitOfWork.StoreRepository.GetStoresByCategoriesAsync(mainCategory, subCategory, chainName);
+            return _mapper.Map<IEnumerable<StoreDto>>(stores);
+
         }
 
         public async Task<Stores> GetStoreByIdAsync(int id)
@@ -55,20 +72,5 @@ namespace TWSInfo.Service
             }
         }
 
-        public async Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId)
-        {
-            return await _unitOfWork.StoreRepository.GetStoresByChainIdAsync(chainId);
-        }
-
-        public async Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId)
-        {
-            return await _unitOfWork.StoreRepository.GetStoresByTypeIdAsync(typeId);
-        }
-
-        public async Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? filterOn, string? filterQuery)
-        {
-            var stores = await _unitOfWork.StoreRepository.GetAllStoresAsync(filterOn, filterQuery);
-            return _mapper.Map<IEnumerable<StoreDto>>(stores);
-        }
     }
 }

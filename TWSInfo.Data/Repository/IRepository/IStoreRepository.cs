@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 
 namespace TWSInfo.Data.Repository.IRepository
 {
     public interface IStoreRepository : IRepository<Stores>
     {
-        Task<IEnumerable<Stores>> GetStoresByChainIdAsync(int chainId);
-        Task<IEnumerable<Stores>> GetStoresByTypeIdAsync(int typeId);
-        Task<IEnumerable<Stores>> GetAllStoresAsync(string? filterOn, string? filterQuery);
+        Task<IEnumerable<Stores>> GetStoresByCategoriesAsync(string? mainCategory, string? subCategory, string? chainName);
     }
 }

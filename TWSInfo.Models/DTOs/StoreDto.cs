@@ -21,7 +21,6 @@ namespace TWSInfo.Models.DTOs
         public bool? IsOpen { get; set; }
 
         public string? Contact { get; set; }
-        public ChainDto? Chain { get; set; }
-        public StoreTypeDto Type { get; set; } = null!;
+
     }
 }

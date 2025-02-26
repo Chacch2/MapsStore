@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TWSInfo.Models.DTOs;
 using TWSInfo.Models.EFModels;
 
 namespace TWSInfo.Data.Repository.IRepository
 {
-    public interface ITypeRepository: IRepository<StoreTypes>
+    public interface ICategoryRepository
     {
+        Task<IEnumerable<StoreTypes>> GetCategoryTreeAsync();
     }
 }
