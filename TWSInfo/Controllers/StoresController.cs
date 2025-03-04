@@ -18,9 +18,9 @@ namespace TWSInfo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stores>>> GetStores([FromQuery] string? tag, [FromQuery] double lat, [FromQuery] double lon)
+        public async Task<ActionResult<IEnumerable<Stores>>> GetStores([FromQuery] string? tag, [FromQuery] double lat, [FromQuery] double lon, [FromQuery] int? storeId)
         {
-            var stores = await _storeService.GetAllStoresAsync(tag, lat, lon);
+            var stores = await _storeService.GetAllStoresAsync(tag, lat, lon, storeId);
             return Ok(stores);
         }
 

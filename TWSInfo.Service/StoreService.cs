@@ -23,12 +23,16 @@ namespace TWSInfo.Service
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? tag, double lat, double lon)
+        public async Task<IEnumerable<StoreDto>> GetAllStoresAsync(string? tag, double lat, double lon, int? storeId)
         {
             // 若 tag 為 null 或 _all，直接取得全部店家
             if (string.IsNullOrWhiteSpace(tag) || tag.Equals("_all", StringComparison.OrdinalIgnoreCase))
             {
                 var allStores = await _unitOfWork.StoreRepository.GetAllAsync();
+                if (storeId.HasValue)
+                {
+                    allStores = allStores.Where(s => s.StoreId == storeId.Value);
+                }
                 return _mapper.Map<IEnumerable<StoreDto>>(allStores);
             }
 
@@ -41,6 +45,10 @@ namespace TWSInfo.Service
             string? chainName = parts.Length >= 3 ? parts[2] : null;
 
             var stores = await _unitOfWork.StoreRepository.GetStoresByCategoriesAsync(mainCategory, subCategory, chainName);
+            if (storeId.HasValue)
+            {
+                stores = stores.Where(s => s.StoreId == storeId.Value);
+            }
             return _mapper.Map<IEnumerable<StoreDto>>(stores);
 
         }
