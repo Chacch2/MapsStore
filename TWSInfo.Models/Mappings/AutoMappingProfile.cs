@@ -28,11 +28,18 @@ namespace TWSInfo.Models.Mappings
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SubTypeId))
                 .ForMember(dest => dest.Children, opt => opt.MapFrom(src => src.Chains));
 
-            // 將 Chain 映射到 CategoryDto，這一層沒有子節點
+            // 將 Chain 映射到 CategoryDto，並將 Stores 映射到 Children
             CreateMap<Chains, CategoryDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ChainId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.IconUrl, opt => opt.MapFrom(src => src.LogoUrl));
+                .ForMember(dest => dest.IconUrl, opt => opt.MapFrom(src => src.LogoUrl))
+                .ForMember(dest => dest.Children, opt => opt.MapFrom(src => src.Stores));
+
+            // 將 Store 映射到 CategoryDto，這一層沒有子節點
+            CreateMap<Stores, CategoryDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.StoreId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Children, opt => opt.Ignore());
 
             CreateMap<SubTypes, SubTypeDto>().ReverseMap();
         }

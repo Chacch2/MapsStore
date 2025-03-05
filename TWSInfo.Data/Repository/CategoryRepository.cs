@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TWSInfo.Data.Repository.IRepository;
@@ -24,6 +25,7 @@ namespace TWSInfo.Data.Repository
             return await _context.StoreTypes
                 .Include(st => st.SubTypes)
                     .ThenInclude(sub => sub.Chains)
+                        .ThenInclude(chain => chain.Stores)
                 .AsNoTracking()
                 .ToListAsync();
         }

@@ -10,6 +10,7 @@ namespace TWSInfo.Models.DTOs
     public class StoreDto
     {
         public int StoreId { get; set; }
+        public int? ChainId { get; set; }
         public string Name { get; set; } = null!;
 
         public string? Address { get; set; }
